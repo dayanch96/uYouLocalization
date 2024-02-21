@@ -127,7 +127,7 @@
 "Bottom Area" = "Phía dưới trình thát";
 "Volume" = "Âm lượng";
 "Brightness" = "Độ sáng";
-"Seek" = "Tìm kiếm";
+"Seek" = "Tua";
 
 "SPEED & SENSITIVITY" = "TỐC ĐỘ & ĐỘ NHẠY";
 "Speed" = "Tốc độ";
@@ -189,10 +189,10 @@
 "No Suggested Videos at The Video End" = "Không có Video được đề xuất ở cuối Video";
 "Fullscreen Always on The Right Side" = "Toàn màn hình luôn phía bên phải";
 "uYou Gestures Controls" = "Điều khiển cử chỉ";
-"Two Fingers Tap to Pause/Play" = "Nhấn hai ngón tay để Tạm dừng/Phát";
+"Two Fingers Tap to Pause/Play" = "Chạm hai ngón tay để Tạm dừng/Phát";
 "Hide Next/Previous Buttons" = "Ẩn các nút Tiếp theo/Trước đó";
 "Replace Next with Fast Forward" = "Thay thế nút Tiếp theo bằng nút Tua nhanh";
-"uYou Gesture Controls: This feature allows you to drag your finger left or right on the top, center or bottom of the video screen to adjust the volume, brightness, or seek the video. Changing settings requires restarting the YouTube app." = "Điều khiển cử chỉ: Nó có thể cho phép bạn kéo ngón tay sang trái hoặc phải, trên hoặc dưới của màn hình video để điều chỉnh âm lượng, độ sáng hoặc tìm kiếm thời gian video.\nViệc thay đổi cài đặt, yêu cầu khởi động lại ứng dụng YouTube.";
+"uYou Gesture Controls: This feature allows you to drag your finger left or right on the top, center or bottom of the video screen to adjust the volume, brightness, or seek the video. Changing settings requires restarting the YouTube app." = "Điều khiển cử chỉ: Nó có thể cho phép bạn kéo ngón tay sang trái hoặc phải, trên hoặc dưới của màn hình video để điều chỉnh âm lượng, độ sáng hoặc tua video.\nViệc thay đổi cài đặt, yêu cầu khởi động lại ứng dụng YouTube.";
 
 "Reorder Tabs" = "Sắp xếp lại các Tab";
 "ReorderTabs" = "Sắp xếp lại các Tab";
