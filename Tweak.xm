@@ -51,10 +51,6 @@ static inline NSString *LOC(NSString *key) {
         text = [NSString stringWithFormat:@"%@ %@", LOC(@"Video"), [text substringFromIndex:[text rangeOfString:@"•"].location]];
     }
 
-    if ([text containsString:@"Completed: "]) {
-        text = [text stringByReplacingOccurrencesOfString:@"Completed" withString:LOC(@"Completed")];
-    }
-
     if ([text containsString:@"Importing ("]) {
         text = [text stringByReplacingOccurrencesOfString:@"Importing" withString:LOC(@"Importing")];
     }
@@ -95,6 +91,16 @@ static inline NSString *LOC(NSString *key) {
     }
 
     %orig(text);
+}
+%end
+
+%hook YTLabel
+- (void)setFontAttributes:(id)attributes text:(NSString *)text {
+    if ([text containsString:@"Completed: "]) {
+        text = [text stringByReplacingOccurrencesOfString:@"Completed" withString:LOC(@"Completed")];
+    }
+
+    %orig(attributes, text);
 }
 %end
 
