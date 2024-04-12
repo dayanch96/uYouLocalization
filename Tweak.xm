@@ -8,7 +8,7 @@ static inline NSBundle *uYouLocalizationBundle() {
 
     dispatch_once(&onceToken, ^{
         NSString *tweakBundlePath = [[NSBundle mainBundle] pathForResource:@"uYouLocalization" ofType:@"bundle"];
-        NSString *rootlessBundlePath = ROOT_PATH_NS("/Library/Application Support/uYouLocalization.bundle");
+        NSString *rootlessBundlePath = ROOT_PATH_NS(@"/Library/Application Support/uYouLocalization.bundle");
 
         bundle = [NSBundle bundleWithPath:tweakBundlePath ?: rootlessBundlePath];
     });
@@ -16,9 +16,7 @@ static inline NSBundle *uYouLocalizationBundle() {
     return bundle;
 }
 
-static inline NSString *LOC(NSString *key) {
-    return [uYouLocalizationBundle() localizedStringForKey:key value:nil table:nil];
-}
+#define LOC(key) [uYouLocalizationBundle() localizedStringForKey:key value:nil table:nil]
 
 // Replace (translate) old text to the new one
 %hook UILabel
@@ -192,59 +190,35 @@ static inline NSString *LOC(NSString *key) {
 }
 %end
 
-@interface GOODialogActionMDCButton : UIButton
-@end
+%hook YTActionSheetAction
+- (id)initWithTitle:(NSString *)title iconImage:(UIImage *)image button:(UIButton *)button style:(NSInteger)style accessibilityIdentifier:(NSString *)identifier handler:(void (^)(void))handler {
+    title = [uYouLocalizationBundle() localizedStringForKey:title value:nil table:nil];
 
-static BOOL shouldResizeIcon = NO;
-
-%hook GOODialogActionMDCButton
-// Replace (translate) old text with the new one and extend its frame
-- (void)setTitle:(NSString *)title forState:(UIControlState)state {
-    NSString *localizedText = [uYouLocalizationBundle() localizedStringForKey:title value:nil table:nil];
-
-    if (![localizedText isEqualToString:title]) {
-        CGSize size = [localizedText sizeWithAttributes:@{NSFontAttributeName:self.titleLabel.font}];
-        CGRect frame = self.frame;
-        frame.size.width = size.width;
-        self.frame = frame;
-
-        shouldResizeIcon = YES;
-    }
-
-    else {
-        shouldResizeIcon = NO;
-    }
-
-    %orig(localizedText, state);
-}
-
-// Re-set images with a fixed frame size
-- (void)setImage:(UIImage *)image forState:(UIControlState)state {
     UIGraphicsImageRenderer *renderer = [[UIGraphicsImageRenderer alloc] initWithSize:CGSizeMake(22, 22)];
     UIImage *newimage = [renderer imageWithActions:^(UIGraphicsImageRendererContext * _Nonnull rendererContext) {
         UIView *imageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 22, 22)];
         UIImageView *iconImageView = [[UIImageView alloc] initWithImage:image];
         iconImageView.contentMode = UIViewContentModeScaleAspectFit;
         iconImageView.clipsToBounds = YES;
-        iconImageView.tintColor = [UIColor labelColor];
         iconImageView.frame = imageView.bounds;
 
         [imageView addSubview:iconImageView];
         [imageView.layer renderInContext:rendererContext.CGContext];
     }];
 
-    UIImage *resizedImage = shouldResizeIcon ? newimage : image;
-    %orig(resizedImage, state);
+    image = newimage;
+
+    return %orig(title, image, button, style, identifier, handler);
 }
 %end
 
 %hook YTSettingsCell
-- (void)setTitleDescription:(id)arg1 {
-    if ([arg1 isEqualToString:@"Show uYou settings"]) {
-        arg1 = LOC(@"uYouSettings");
+- (void)setTitleDescription:(NSString *)description {
+    if ([description isEqualToString:@"Show uYou settings"]) {
+        description = LOC(@"uYouSettings");
     }
 
-    %orig(arg1);
+    %orig(description);
 }
 %end
 
